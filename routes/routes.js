@@ -4,8 +4,8 @@ const moment = require("moment");
 const transactionModel = require("../models/TransactionModel");
 const app = express();
 
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 const patternDate = /[0-9]{4}/;
 
 // Retrieve
@@ -28,6 +28,19 @@ app.get("/", async (req, res) => {
       : res.send(
           "é necessário informar o parâmetro period, no formato yyyy-mm e válido ao periodo de 36 meses"
         );
+  } catch (error) {
+    res.status(500).send("Falha ao buscar registros: " + error);
+  }
+});
+
+// Retrieve All Months
+app.get("/months", async (req, res) => {
+  try {
+    let months = await transactionModel.distinct("yearMonth");
+    months = months.map((month) => {
+      return { value: month };
+    });
+    res.send(months);
   } catch (error) {
     res.status(500).send("Falha ao buscar registros: " + error);
   }
