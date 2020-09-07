@@ -12,10 +12,25 @@ export default function Period({ months }) {
     });
   }, []);
 
+  const slideLeft = () => {
+    document.getElementById("tabs").scrollLeft += 40;
+  };
+
+  const slideRight = () => {
+    document.getElementById("tabs").scrollLeft -= 40;
+  };
+
   return (
     <div className="row">
-      <div className="col s12">
-        <ul className="tabs" id="tabs">
+      <div className="col s12" style={{ display: "flex" }}>
+        <button
+          onClick={slideRight}
+          class="waves-effect waves-teal btn-flat"
+          id="button-right"
+        >
+          <i class="material-icons">arrow_back</i>
+        </button>
+        <ul className="tabs" id="tabs" style={{ overflow: "hidden" }}>
           {months.map((month) => {
             return (
               <li key={month.period.value} className="tab col s3">
@@ -24,6 +39,13 @@ export default function Period({ months }) {
             );
           })}
         </ul>
+        <button
+          onClick={slideLeft}
+          class="waves-effect waves-teal btn-flat"
+          id="button-right"
+        >
+          <i class="material-icons">arrow_forward</i>
+        </button>
       </div>
       {months.map((month) => {
         return (
