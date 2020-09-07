@@ -34,9 +34,6 @@ export default function App() {
         <h2 className="center-align">Desafio Final do Bootcamp Full Stack</h2>
       </div>
       <div>{months !== 0 ? <Period months={months} /> : <span>Wait</span>}</div>
-      <div>
-        <Report />
-      </div>
     </div>
   );
 }
