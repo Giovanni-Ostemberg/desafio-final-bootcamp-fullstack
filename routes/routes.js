@@ -10,10 +10,16 @@ const patternDate = /[0-9]{4}/;
 
 // Retrieve
 app.get("/", async (req, res) => {
-  const period = req.query.period.split("-");
-  const testPeriod =
-    period[0] >= 2019 && period[0] <= 2021 && period[1] >= 0 && period[1] <= 12;
   try {
+    if (!req.query.period) {
+      throw new Error("Favor informar o período");
+    }
+    const period = req.query.period.split("-");
+    const testPeriod =
+      period[0] >= 2019 &&
+      period[0] <= 2021 &&
+      period[1] >= 0 &&
+      period[1] <= 12;
     const transactions = await transactionModel.find({
       yearMonth: req.query.period,
     });
