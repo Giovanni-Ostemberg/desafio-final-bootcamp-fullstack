@@ -17,7 +17,7 @@ export default function Period({
     const tabs = document.querySelector(".tabs");
 
     var instance = M.Tabs.init(tabs, {
-      swipeable: true,
+      // swipeable: true,
     });
   }, [selectedMonth]);
 
@@ -41,7 +41,7 @@ export default function Period({
   }, [selectedMonth]);
 
   return (
-    <div className="container">
+    <div>
       <div className="col s12" style={{ display: "flex" }}>
         <button
           onClick={slideRight}
@@ -75,7 +75,7 @@ export default function Period({
         </button>
       </div>
 
-      <div id="1" className="col s12">
+      <div id="1" className="col s12" style={{ height: "fit-content" }}>
         <Report month={selectedMonth} report={report} />
       </div>
     </div>

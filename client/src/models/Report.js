@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import CardsTransactions from "./transactions/CardsTransactions";
 
 export default function Report({ month, report }) {
+  const moneyFormat = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
   return (
     <div
       className="container"
@@ -21,8 +25,12 @@ export default function Report({ month, report }) {
           <tbody>
             <tr>
               <td className="center-align">{report.qtd}</td>
-              <td className="center-align green-text">{report.receita}</td>
-              <td className="center-align red-text">{report.despesas}</td>
+              <td className="center-align green-text">
+                {moneyFormat.format(report.receita)}
+              </td>
+              <td className="center-align red-text">
+                {moneyFormat.format(report.despesas)}
+              </td>
               <td
                 className={
                   "center-align " + (+report.receita > +report.despesas)
@@ -30,7 +38,7 @@ export default function Report({ month, report }) {
                     : "red-text"
                 }
               >
-                {report.saldo}
+                {moneyFormat.format(report.saldo)}
               </td>
             </tr>
           </tbody>

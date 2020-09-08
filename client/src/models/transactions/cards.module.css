@@ -1,0 +1,19 @@
+.cardList {
+  width: "fit-content";
+  background-color: "blue";
+  margin: 3px;
+  /* max-width: 30%; */
+  flex-grow: 1;
+}
+
+#cardContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#cardImage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
