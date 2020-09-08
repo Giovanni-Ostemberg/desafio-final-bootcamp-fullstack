@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import Period from "./models/Period";
 import Report from "./models/Report";
 import css from "./index.css";
+import M from "materialize-css";
 import moment from "moment";
 import CardsTransactions from "./models/transactions/CardsTransactions";
+import ModalCreate from "./models/modal/ModalCreate";
 
 export default function App() {
   const [months, setMonths] = useState(0);
@@ -26,11 +28,16 @@ export default function App() {
 
     setReport(await reportRetrieve.json());
   };
+  const initModal = () => {
+    var elems = document.querySelectorAll(".modal");
+    var instances = M.Modal.init(elems, {});
+  };
 
   useEffect(() => {
     const start = async () => {
       await retrievePeriod();
       await retrieveReport();
+      initModal();
     };
     start();
   }, []);
@@ -61,7 +68,13 @@ export default function App() {
   return (
     <div>
       <div>
-        <h2 className="center-align">Desafio Final do Bootcamp Full Stack</h2>
+        <h2 className="center-align">Desafio Final</h2>
+      </div>
+      <div>
+        <button data-target="modalCreate" class="btn modal-trigger">
+          Modal
+        </button>
+        <ModalCreate />
       </div>
       <div className="container">
         {months !== 0 && (
