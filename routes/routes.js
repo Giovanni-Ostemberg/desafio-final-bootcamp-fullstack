@@ -101,6 +101,7 @@ app.put("/update", async (req, res) => {
 
 //Create
 app.post("/create", async (req, res) => {
+  console.log("Criando Objeto");
   const { transaction } = req.body;
   const id = transaction._id;
   try {
