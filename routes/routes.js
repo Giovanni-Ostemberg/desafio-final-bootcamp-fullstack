@@ -23,8 +23,29 @@ app.get("/", async (req, res) => {
     const transactions = await transactionModel.find({
       yearMonth: req.query.period,
     });
+    const count = await transactionModel.count({
+      yearMonth: req.query.period,
+    });
+    const receita = await transactionModel.aggregate([
+      { $match: { yearMonth: req.query.period, category: "Receita" } },
+      { $group: { _id: null, total: { $sum: "$value" } } },
+    ]);
+    const despesas = await transactionModel.aggregate([
+      {
+        $match: { yearMonth: req.query.period, category: { $ne: "Receita" } },
+      },
+      { $group: { _id: null, total: { $sum: "$value" } } },
+    ]);
+    const report = {
+      qtd: count,
+      receita: receita[0].total,
+      despesas: despesas[0].total,
+      saldo: receita[0].total - despesas[0].total,
+      lancamentos: [...transactions],
+    };
+
     testPeriod
-      ? res.send(transactions)
+      ? res.send(report)
       : res.send(
           "é necessário informar o parâmetro period, no formato yyyy-mm e válido ao periodo de 36 meses"
         );

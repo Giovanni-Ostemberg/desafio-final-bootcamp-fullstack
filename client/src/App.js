@@ -1,17 +1,46 @@
 import React, { useState, useEffect } from "react";
 import Period from "./models/Period";
 import Report from "./models/Report";
+import css from "./index.css";
+import moment from "moment";
+import CardsTransactions from "./models/transactions/CardsTransactions";
 
 export default function App() {
   const [months, setMonths] = useState(0);
+  const [selectedMonth, setSelectedMonth] = useState(
+    moment().format("yyyy-MM")
+  );
 
-  useEffect(async () => {
+  const [report, setReport] = useState({
+    lancamentos: null,
+    receitas: 0,
+    despesas: 0,
+    saldo: 0,
+    lancamentos: [],
+  });
+
+  const retrieveReport = async () => {
+    const reportRetrieve = await fetch(
+      "http://localhost:3001/api/transaction?period=" + selectedMonth
+    );
+
+    setReport(await reportRetrieve.json());
+  };
+
+  useEffect(() => {
     const start = async () => {
       await retrievePeriod();
-      await printMonths();
+      await retrieveReport();
     };
     start();
   }, []);
+
+  useEffect(() => {
+    const update = async () => {
+      await retrieveReport();
+    };
+    update();
+  }, [selectedMonth]);
 
   const retrievePeriod = async () => {
     const res = await fetch("http://localhost:3001/api/transaction/months");
@@ -24,8 +53,9 @@ export default function App() {
     );
   };
 
-  const printMonths = async () => {
-    console.log(months);
+  const handleSelectedMonth = async (event) => {
+    setSelectedMonth(event);
+    // await retrieveReport();
   };
 
   return (
@@ -33,7 +63,23 @@ export default function App() {
       <div>
         <h2 className="center-align">Desafio Final do Bootcamp Full Stack</h2>
       </div>
-      <div>{months !== 0 ? <Period months={months} /> : <span>Wait</span>}</div>
+      <div className="container">
+        {months !== 0 && (
+          <Period
+            months={months}
+            selectedMonth={selectedMonth}
+            handleSelectedMonth={handleSelectedMonth}
+            report={report}
+          />
+        )}
+      </div>
+      <div>
+        <div id="1" className="container">
+          {report.lancamentos && (
+            <CardsTransactions transactions={report.lancamentos} />
+          )}
+        </div>
+      </div>
     </div>
   );
 }
