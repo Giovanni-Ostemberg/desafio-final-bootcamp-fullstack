@@ -103,7 +103,8 @@ app.put("/update", async (req, res) => {
 app.post("/create", async (req, res) => {
   console.log("Criando Objeto");
   const { transaction } = req.body;
-  const id = transaction._id;
+  // const id = transaction._id;
+  console.log(transaction);
   try {
     const createdTransaction = new transactionModel(transaction);
     await createdTransaction.save();
