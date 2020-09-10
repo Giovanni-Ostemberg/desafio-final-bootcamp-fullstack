@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import css from "./cards.module.css";
+import ModalUpdate from "../modal/ModalUpdate";
+import axios from "axios";
+import DeleteButton from "./DeleteButton";
 
 export default function CardsTransactions({ transactions }) {
   let i = 0;
@@ -7,7 +10,11 @@ export default function CardsTransactions({ transactions }) {
     style: "currency",
     currency: "BRL",
   });
-  console.log(transactions);
+
+  const deleteRegister = async (id) => {
+    console.log("Deletando: " + id);
+    axios.delete("http://localhost:3001/api/transaction/delete/" + id);
+  };
   return (
     <ul className="col s12 m7" id={css.cardContainer}>
       {transactions.map((transaction) => {
@@ -17,13 +24,13 @@ export default function CardsTransactions({ transactions }) {
               <div
                 className={
                   "card-image valign-wrapper" +
-                  (transaction.category === "Receita"
+                  (transaction.type === "+"
                     ? " teal accent-3"
                     : " pink accent-3 white-text")
                 }
                 id={css.cardImage}
               >
-                {transaction.category === "Receita" ? (
+                {transaction.type === "+" ? (
                   <i className="material-icons medium ">trending_up</i>
                 ) : (
                   <i className="material-icons medium ">trending_down</i>
@@ -42,10 +49,35 @@ export default function CardsTransactions({ transactions }) {
                     <li>
                       <b>Valor:</b> {moneyFormat.format(transaction.value)}
                     </li>
+                    <li>
+                      <b>Data:</b> {transaction.yearMonthDay}
+                    </li>
                   </ul>
                 </div>
-                <div className="card-action"></div>
+                <div
+                  className="card-action"
+                  style={{ display: "flex", justifyContent: "flex-end" }}
+                >
+                  <button
+                    className="btn-flat modal-trigger"
+                    data-target={"modalUpdate" + transaction._id}
+                  >
+                    <i className="material-icons">edit</i>
+                  </button>
+                  <DeleteButton
+                    _id={transaction._id}
+                    handleDelete={deleteRegister}
+                  />
+                </div>
               </div>
+              <ModalUpdate
+                oldDescription={transaction.description}
+                oldCategory={transaction.category}
+                oldValue={transaction.value}
+                oldDate={transaction.yearMonthDay}
+                oldType={transaction.type}
+                _id={transaction._id}
+              />
             </div>
           </li>
         );

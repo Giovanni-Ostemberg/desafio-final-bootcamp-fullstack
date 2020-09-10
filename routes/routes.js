@@ -27,12 +27,12 @@ app.get("/", async (req, res) => {
       yearMonth: req.query.period,
     });
     const receita = await transactionModel.aggregate([
-      { $match: { yearMonth: req.query.period, category: "Receita" } },
+      { $match: { yearMonth: req.query.period, type: "+" } },
       { $group: { _id: null, total: { $sum: "$value" } } },
     ]);
     const despesas = await transactionModel.aggregate([
       {
-        $match: { yearMonth: req.query.period, category: { $ne: "Receita" } },
+        $match: { yearMonth: req.query.period, type: { $ne: "+" } },
       },
       { $group: { _id: null, total: { $sum: "$value" } } },
     ]);
@@ -83,6 +83,7 @@ app.put("/update", async (req, res) => {
   const { transaction } = req.body;
   const id = transaction._id;
 
+  console.log(transaction);
   try {
     const updatedTransaction = await transactionModel.findByIdAndUpdate(
       { _id: id },
@@ -91,9 +92,10 @@ app.put("/update", async (req, res) => {
         new: true,
       }
     );
+    console.log(updatedTransaction);
     updatedTransaction
       ? res.send(updatedTransaction)
-      : res.send("Registro não encontrada!");
+      : res.send("Registro não encontrado!");
   } catch (error) {
     res.status(500).send("Não foi possível atualizar o registro: " + error);
   }
@@ -108,11 +110,67 @@ app.post("/create", async (req, res) => {
   try {
     const createdTransaction = new transactionModel(transaction);
     await createdTransaction.save();
-
+    // console.log(createdTransaction);
     res.send(createdTransaction);
   } catch (error) {
     res.status(500).send("Não foi possível criar o registro: " + error);
   }
+});
+
+app.get("/find/:term", async (req, res) => {
+  console.log("teste");
+  try {
+    const transactions = await transactionModel
+      .find(
+        {
+          $text: { $search: req.params.term },
+        },
+        {
+          score: { $meta: "textScore" },
+        }
+      )
+      .sort({ score: { $meta: "textScore" } });
+    const count = await transactionModel.count(
+      {
+        $text: { $search: req.params.term },
+      },
+      {
+        score: { $meta: "textScore" },
+      }
+    );
+    const receita = await transactionModel.aggregate([
+      {
+        $match: {
+          $text: { $search: req.params.term },
+          type: "+",
+        },
+      },
+      { $group: { _id: null, total: { $sum: "$value" } } },
+    ]);
+
+    const despesas = await transactionModel.aggregate([
+      {
+        $match: {
+          $text: { $search: req.params.term },
+          type: "-",
+        },
+      },
+      { $group: { _id: null, total: { $sum: "$value" } } },
+    ]);
+    const report = {
+      qtd: count,
+      receita: receita[0].total,
+      despesas: despesas[0].total,
+      saldo: receita[0].total - despesas[0].total,
+      lancamentos: [...transactions],
+    };
+
+    transactions
+      ? res.send(transactions)
+      : res.send(
+          "é necessário informar o parâmetro period, no formato yyyy-mm e válido ao periodo de 36 meses"
+        );
+  } catch (error) {}
 });
 
 module.exports = app;

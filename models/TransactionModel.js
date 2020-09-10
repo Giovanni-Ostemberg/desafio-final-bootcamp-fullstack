@@ -39,6 +39,8 @@ let schema = mongoose.Schema({
   },
 });
 
+schema.index({ description: "text" });
+
 const TransactionModel = mongoose.model("transaction", schema);
 
 module.exports = TransactionModel;

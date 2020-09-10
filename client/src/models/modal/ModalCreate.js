@@ -27,23 +27,23 @@ export default function ModalCreate() {
 
   const persist = async () => {
     const date = new Date(document.getElementById("date").value);
+    const monthString =
+      +date.getMonth() + 1 <= 9
+        ? "0" + (+date.getMonth() + 1)
+        : +date.getMonth() + 1;
     await axios
       .post("http://localhost:3001/api/transaction/create", {
         transaction: {
           description: document.getElementById("description").value,
           category: document.getElementById("category").value,
           value: document.getElementById("value").value,
-          yearMonth: date.getFullYear() + "-" + (+date.getMonth() + 1),
+          yearMonth: date.getFullYear() + "-" + monthString,
           yearMonthDay:
-            date.getFullYear() +
-            "-" +
-            (+date.getMonth() + 1) +
-            "-" +
-            date.getDate(),
+            date.getFullYear() + "-" + monthString + "-" + date.getDate(),
           year: date.getFullYear(),
           month: +date.getMonth() + 1,
           day: date.getDate(),
-          type: document.getElementById("type").value,
+          type: document.querySelector('input[name="tipo"]:checked').value,
         },
       })
       .then(function (response) {
@@ -69,13 +69,13 @@ export default function ModalCreate() {
               >
                 <div>
                   <label>
-                    <input id="type" name="tipo" type="radio" value="+" />
+                    <input id="type_plus" name="tipo" type="radio" value="+" />
                     <span className={css.radioReceita}>Receita</span>
                   </label>
                 </div>
                 <div>
                   <label>
-                    <input id="type" name="tipo" type="radio" value="-" />
+                    <input id="type_minus" name="tipo" type="radio" value="-" />
                     <span className={css.radioDespesa}>Despesa</span>
                   </label>
                 </div>
