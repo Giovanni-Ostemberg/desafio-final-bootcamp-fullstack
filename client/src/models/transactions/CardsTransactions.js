@@ -4,7 +4,7 @@ import ModalUpdate from "../modal/ModalUpdate";
 import axios from "axios";
 import DeleteButton from "./DeleteButton";
 
-export default function CardsTransactions({ transactions }) {
+export default function CardsTransactions({ transactions, retrieveReports }) {
   let i = 0;
   const moneyFormat = new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -13,7 +13,8 @@ export default function CardsTransactions({ transactions }) {
 
   const deleteRegister = async (id) => {
     console.log("Deletando: " + id);
-    axios.delete("http://localhost:3001/api/transaction/delete/" + id);
+    await axios.delete("http://localhost:3001/api/transaction/delete/" + id);
+    await retrieveReports();
   };
   return (
     <ul className="col s12 m7" id={css.cardContainer}>
@@ -67,6 +68,7 @@ export default function CardsTransactions({ transactions }) {
                   <DeleteButton
                     _id={transaction._id}
                     handleDelete={deleteRegister}
+                    retrieveReports={retrieveReports}
                   />
                 </div>
               </div>

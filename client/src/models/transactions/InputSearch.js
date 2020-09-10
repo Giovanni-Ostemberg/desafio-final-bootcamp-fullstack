@@ -7,8 +7,14 @@ export default function InputSearch({ handleSearch }) {
       : console.log("Try");
   };
 
+  const focusInput = () => {
+    console.log(document.querySelector("#search"));
+
+    document.querySelector("#search").focus();
+  };
+
   return (
-    <div class="input-field vertical-align" style={{ width: "80%" }}>
+    <div class="input-field" style={{ width: "80%" }} onClick={focusInput}>
       <i class="material-icons prefix">search</i>
 
       <input
@@ -16,8 +22,9 @@ export default function InputSearch({ handleSearch }) {
         id="search"
         className="validate"
         onKeyUp={handleSearchType}
+        // style={{ height: "90%" }}
       />
-      <label for="icon_prefix">Buscar</label>
+      <label htmlFor="icon_prefix">Buscar</label>
     </div>
   );
 }

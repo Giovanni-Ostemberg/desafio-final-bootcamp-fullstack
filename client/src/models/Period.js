@@ -35,14 +35,14 @@ export default function Period({
 
   useEffect(() => {
     document.getElementById("tab_" + selectedMonth).click();
-    document.getElementById("tabs").scrollLeft +=
-      document.getElementById("tab_" + selectedMonth).getBoundingClientRect()
-        .left - 250;
+    // document.getElementById("tabs").scrollLeft +=
+    //   document.getElementById("tab_" + selectedMonth).getBoundingClientRect()
+    //     .left - 250;
   }, [selectedMonth]);
 
   return (
-    <div>
-      <div className="col s12" style={{ display: "flex" }}>
+    <div style={{ width: "100%" }}>
+      <div className="col s12" style={{ display: "flex", width: "100%" }}>
         <button
           onClick={slideRight}
           className="waves-effect waves-teal btn-flat"

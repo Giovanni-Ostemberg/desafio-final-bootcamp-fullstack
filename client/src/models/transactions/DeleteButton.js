@@ -1,8 +1,9 @@
 import React from "react";
 
-export default function DeleteButton({ _id, handleDelete }) {
+export default function DeleteButton({ _id, handleDelete, retrieveReports }) {
   const deleteRegister = async () => {
     await handleDelete(_id);
+    await retrieveReports();
   };
 
   return (

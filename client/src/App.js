@@ -109,7 +109,7 @@ export default function App() {
             flexWrap: "wrap",
           }}
         >
-          <div className="vertical-align">
+          <div className="vertical-align" style={{ marginRight: "10px" }}>
             <button data-target="modalCreate" class="btn modal-trigger">
               Novo
             </button>
@@ -117,7 +117,7 @@ export default function App() {
           </div>
           <InputSearch handleSearch={handleSearch} />
         </div>
-        <div className="container">
+        <div className="container" style={{ width: "90%" }}>
           {months !== 0 && (
             <Period
               months={months}
@@ -131,7 +131,10 @@ export default function App() {
       <div>
         <div id="1" className="container ">
           {/* {report.lancamentos && ( */}
-          <CardsTransactions transactions={report.lancamentos} />
+          <CardsTransactions
+            transactions={report.lancamentos}
+            retrieveReports={retrieveReport}
+          />
           {/* )} */}
         </div>
       </div>

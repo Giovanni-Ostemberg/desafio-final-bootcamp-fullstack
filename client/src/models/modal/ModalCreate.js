@@ -11,7 +11,9 @@ export default function ModalCreate() {
 
   document.addEventListener("DOMContentLoaded", function () {
     var elems = document.querySelectorAll(".datepicker");
-    var instances = M.Datepicker.init(elems, {});
+    var instances = M.Datepicker.init(elems, {
+      autoClose: true,
+    });
   });
 
   const handleSubmit = async () => {
@@ -52,7 +54,11 @@ export default function ModalCreate() {
   };
 
   return (
-    <div id="modalCreate" className="modal" style={{ height: "80%" }}>
+    <div
+      id="modalCreate"
+      className="modal large"
+      style={{ height: "fit-content" }}
+    >
       <div className="modal-content">
         <div className="row">
           <h5>Inserir Registro</h5>
@@ -133,14 +139,6 @@ export default function ModalCreate() {
             <button type="submit">+</button>
           </form>
         </div>
-      </div>
-      <div className="modal-footer">
-        <button className="modal-close waves-effect waves-green btn">
-          Cancelar
-        </button>
-        <a href="#!" className="modal-close waves-effect waves-green btn-flat">
-          Confirmar
-        </a>
       </div>
     </div>
   );
