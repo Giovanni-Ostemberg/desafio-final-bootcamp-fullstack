@@ -54,21 +54,24 @@ export default function ModalUpdate({
     const dayString =
       +date.getDate() <= 9 ? "0" + +date.getDate() : +date.getDate();
     await axios
-      .put("http://localhost:3001/api/transaction/update", {
-        transaction: {
-          _id: _id,
-          description: document.getElementById("description" + _id).value,
-          category: document.getElementById("category" + _id).value,
-          value: +document.getElementById("value" + _id).value,
-          yearMonth: date.getFullYear() + "-" + monthString,
-          yearMonthDay:
-            date.getFullYear() + "-" + monthString + "-" + dayString,
-          year: date.getFullYear(),
-          month: +date.getMonth() + 1,
-          day: date.getDate,
-          type: document.querySelector('input[name="tipo"]:checked').value,
-        },
-      })
+      .put(
+        "https://giovanni-desafio-final.herokuapp.com/api/transaction/update",
+        {
+          transaction: {
+            _id: _id,
+            description: document.getElementById("description" + _id).value,
+            category: document.getElementById("category" + _id).value,
+            value: +document.getElementById("value" + _id).value,
+            yearMonth: date.getFullYear() + "-" + monthString,
+            yearMonthDay:
+              date.getFullYear() + "-" + monthString + "-" + dayString,
+            year: date.getFullYear(),
+            month: +date.getMonth() + 1,
+            day: date.getDate,
+            type: document.querySelector('input[name="tipo"]:checked').value,
+          },
+        }
+      )
       .then(function (response) {
         console.log(response);
       });

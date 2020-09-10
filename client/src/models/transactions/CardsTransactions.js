@@ -13,7 +13,10 @@ export default function CardsTransactions({ transactions }) {
 
   const deleteRegister = async (id) => {
     console.log("Deletando: " + id);
-    axios.delete("http://localhost:3001/api/transaction/delete/" + id);
+    axios.delete(
+      "https://giovanni-desafio-final.herokuapp.com/api/transaction/delete/" +
+        id
+    );
   };
   return (
     <ul className="col s12 m7" id={css.cardContainer}>

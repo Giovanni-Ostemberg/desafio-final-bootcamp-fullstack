@@ -25,7 +25,8 @@ export default function App() {
 
   const retrieveReport = async () => {
     const reportRetrieve = await fetch(
-      "http://localhost:3001/api/transaction?period=" + selectedMonth
+      "https://giovanni-desafio-final.herokuapp.com/api/transaction?period=" +
+        selectedMonth
     );
 
     setReport(await reportRetrieve.json());
@@ -34,7 +35,8 @@ export default function App() {
   const updateReport = async (text) => {
     console.log(text);
     const reportRetrieve = await fetch(
-      "http://localhost:3001/api/transaction?period=" + selectedMonth
+      "https://giovanni-desafio-final.herokuapp.com/api/transaction?period=" +
+        selectedMonth
     );
 
     let oldReport = await reportRetrieve.json();
@@ -75,7 +77,9 @@ export default function App() {
   };
 
   const retrievePeriod = async () => {
-    const res = await fetch("http://localhost:3001/api/transaction/months");
+    const res = await fetch(
+      "https://giovanni-desafio-final.herokuapp.com/api/transaction/months"
+    );
     const monthsJson = await res.json();
 
     setMonths(

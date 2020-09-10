@@ -32,20 +32,23 @@ export default function ModalCreate() {
         ? "0" + (+date.getMonth() + 1)
         : +date.getMonth() + 1;
     await axios
-      .post("http://localhost:3001/api/transaction/create", {
-        transaction: {
-          description: document.getElementById("description").value,
-          category: document.getElementById("category").value,
-          value: document.getElementById("value").value,
-          yearMonth: date.getFullYear() + "-" + monthString,
-          yearMonthDay:
-            date.getFullYear() + "-" + monthString + "-" + date.getDate(),
-          year: date.getFullYear(),
-          month: +date.getMonth() + 1,
-          day: date.getDate(),
-          type: document.querySelector('input[name="tipo"]:checked').value,
-        },
-      })
+      .post(
+        "https://giovanni-desafio-final.herokuapp.com/api/transaction/create",
+        {
+          transaction: {
+            description: document.getElementById("description").value,
+            category: document.getElementById("category").value,
+            value: document.getElementById("value").value,
+            yearMonth: date.getFullYear() + "-" + monthString,
+            yearMonthDay:
+              date.getFullYear() + "-" + monthString + "-" + date.getDate(),
+            year: date.getFullYear(),
+            month: +date.getMonth() + 1,
+            day: date.getDate(),
+            type: document.querySelector('input[name="tipo"]:checked').value,
+          },
+        }
+      )
       .then(function (response) {
         console.log(response);
       });
