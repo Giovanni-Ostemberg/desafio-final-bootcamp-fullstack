@@ -42,7 +42,7 @@ export default function App() {
     let oldReport = await reportRetrieve.json();
 
     oldReport.lancamentos = oldReport.lancamentos.filter((transaction) => {
-      return transaction.description.toLowerCase().includes(text);
+      return transaction.category.toLowerCase().includes(text);
     });
 
     oldReport.qtd = oldReport.lancamentos.length;

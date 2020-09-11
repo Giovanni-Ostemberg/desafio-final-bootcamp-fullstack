@@ -173,4 +173,21 @@ app.get("/find/:term", async (req, res) => {
   } catch (error) {}
 });
 
+app.get("/year/:year", async (req, res) => {
+  console.log("searching");
+  const transactions = await transactionModel.find({
+    year: req.params.year,
+  });
+
+  const sum = transactions.reduce((acc, curr) => {
+    if (curr.type === "+") {
+      return acc + curr.value;
+    } else {
+      return acc - curr.value;
+    }
+  }, 0);
+
+  res.send("" + sum);
+});
+
 module.exports = app;
