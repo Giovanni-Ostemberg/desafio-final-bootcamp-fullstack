@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import CardsTransactions from "./transactions/CardsTransactions";
 
-export default function Report({ month, report }) {
+export default function Report({ report }) {
   const moneyFormat = new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: "BRL",
   });
+
   return (
     <div
+      id="report"
       className="container"
       style={{ height: "fit-content", overflow: "auto" }}
     >

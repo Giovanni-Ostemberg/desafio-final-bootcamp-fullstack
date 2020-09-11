@@ -100,6 +100,8 @@ export default function ModalUpdate({
                       name="tipo"
                       type="radio"
                       value="+"
+                      checked={oldType === "+"}
+                      disabled
                     />
                     <span className={css.radioReceita}>Receita</span>
                   </label>
@@ -111,6 +113,8 @@ export default function ModalUpdate({
                       name="tipo"
                       type="radio"
                       value="-"
+                      checked={oldType === "-"}
+                      disabled
                     />
                     <span className={css.radioDespesa}>Despesa</span>
                   </label>
@@ -126,6 +130,7 @@ export default function ModalUpdate({
                   type="text"
                   className="validate "
                   defaultValue={description}
+                  required
                 />
                 <label for="first_name" className="active">
                   Descrição
@@ -141,6 +146,7 @@ export default function ModalUpdate({
                   type="text"
                   className="validate "
                   defaultValue={category}
+                  required
                 />
                 <label for="first_name" className="active">
                   Categoria
@@ -156,6 +162,7 @@ export default function ModalUpdate({
                   type="number"
                   className="validate "
                   defaultValue={value}
+                  required
                 />
                 <label htmlFor="value" className="active">
                   <i className="material-icons prefix">attach_money</i>
@@ -168,25 +175,18 @@ export default function ModalUpdate({
                   type="text"
                   className="datepicker"
                   defaultValue={date}
+                  required
                 />
                 <label htmlFor="date" className="active">
                   <i className="material-icons">date_range</i>
                 </label>
               </div>
             </div>
-            <button type="submit" onClick={persistUpdate}>
+            <button className="btn right" type="submit" onClick={persistUpdate}>
               +
             </button>
           </form>
         </div>
-      </div>
-      <div className="modal-footer">
-        <button className="modal-close waves-effect waves-green btn">
-          Cancelar
-        </button>
-        <a href="#!" className="modal-close waves-effect waves-green btn-flat">
-          Confirmar
-        </a>
       </div>
     </div>
   );

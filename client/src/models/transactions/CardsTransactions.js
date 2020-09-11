@@ -3,8 +3,11 @@ import css from "./cards.module.css";
 import ModalUpdate from "../modal/ModalUpdate";
 import axios from "axios";
 import DeleteButton from "./DeleteButton";
+import M from "materialize-css";
+import { render } from "react-dom";
+import ToastDelete from "./ToastDelete";
 
-export default function CardsTransactions({ transactions }) {
+export default function CardsTransactions({ transactions, retrieveReports }) {
   let i = 0;
   const moneyFormat = new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -12,12 +15,21 @@ export default function CardsTransactions({ transactions }) {
   });
 
   const deleteRegister = async (id) => {
-    console.log("Deletando: " + id);
-    axios.delete(
+    var toastHTML = "Excluindo item...";
+    M.toast({
+      html: toastHTML,
+    });
+    await axios.delete(
       "https://giovanni-desafio-final.herokuapp.com/api/transaction/delete/" +
         id
     );
+    await retrieveReports();
   };
+
+  const confirmDelete = () => {
+    console.log("Teste");
+  };
+
   return (
     <ul className="col s12 m7" id={css.cardContainer}>
       {transactions.map((transaction) => {
@@ -70,6 +82,7 @@ export default function CardsTransactions({ transactions }) {
                   <DeleteButton
                     _id={transaction._id}
                     handleDelete={deleteRegister}
+                    retrieveReports={retrieveReports}
                   />
                 </div>
               </div>

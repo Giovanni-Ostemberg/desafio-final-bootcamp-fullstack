@@ -45,6 +45,22 @@ export default function App() {
       return transaction.description.toLowerCase().includes(text);
     });
 
+    oldReport.qtd = oldReport.lancamentos.length;
+
+    oldReport.receita = oldReport.lancamentos.reduce((acc, curr) => {
+      console.log(acc);
+      return curr.type === "+" ? acc + curr.value : acc;
+    }, 0);
+
+    oldReport.despesas = oldReport.lancamentos.reduce((acc, curr) => {
+      console.log(acc);
+      return curr.type !== "+" ? acc + curr.value : acc;
+    }, 0);
+
+    oldReport.saldo = +oldReport.receita - oldReport.despesas;
+
+    console.log(oldReport);
+
     setReport(oldReport);
   };
 
@@ -113,7 +129,7 @@ export default function App() {
             flexWrap: "wrap",
           }}
         >
-          <div className="vertical-align">
+          <div className="vertical-align" style={{ marginRight: "10px" }}>
             <button data-target="modalCreate" class="btn modal-trigger">
               Novo
             </button>
@@ -121,7 +137,7 @@ export default function App() {
           </div>
           <InputSearch handleSearch={handleSearch} />
         </div>
-        <div className="container">
+        <div className="container" style={{ width: "90%" }}>
           {months !== 0 && (
             <Period
               months={months}
@@ -131,11 +147,17 @@ export default function App() {
             />
           )}
         </div>
+        <div id="1" className="col s12" style={{ height: "fit-content" }}>
+          <Report month={selectedMonth} report={report} />
+        </div>
       </div>
       <div>
         <div id="1" className="container ">
           {/* {report.lancamentos && ( */}
-          <CardsTransactions transactions={report.lancamentos} />
+          <CardsTransactions
+            transactions={report.lancamentos}
+            retrieveReports={retrieveReport}
+          />
           {/* )} */}
         </div>
       </div>
